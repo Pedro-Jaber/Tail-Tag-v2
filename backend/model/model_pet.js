@@ -64,10 +64,10 @@ const Pet = sequelize.define(
   }
 );
 
-(async () => {
-  await Pet.sync({ force: true }); // Drop table and re-create
-  // await Pet.sync({ alter: true });
-})();
+// (async () => {
+//   await Pet.sync({ force: true }); // Drop table and re-create
+//   // await Pet.sync({ alter: true });
+// })();
 
 module.exports = {
   Pet,

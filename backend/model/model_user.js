@@ -77,12 +77,17 @@ const User = sequelize.define(
       validate: {
         is: {
           args: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
-          msg: "Password must be at least 6 characters long and contain at least one letter, one number, and one special character",
+          msg: "Password must be at least 6 characters long and contain at least one lowercase letter, one uppercase letter, one number, and one special character",
         },
         notNull: {
           msg: "Password is required",
         },
       },
+    },
+    role: {
+      type: DataTypes.ENUM("user", "admin"),
+      allowNull: false,
+      defaultValue: "user",
     },
   },
   {
@@ -94,6 +99,14 @@ const User = sequelize.define(
   }
 );
 
+User.addHook("beforeValidate", (user, options) => {
+  user.search_name = (user.first_name + " " + user.last_name).toUpperCase();
+});
+
+User.addHook("beforeCreate", (user, options) => {
+  // TODO: [Issue #2] Hash password
+});
+
 User.belongsToMany(Pet, {
   through: "pet_user",
   foreignKey: "id_user",
@@ -104,9 +117,9 @@ Pet.belongsToMany(User, {
   foreignKey: "id_pet",
 });
 
-(async () => {
-  await User.sync({ force: true }); // Drop table and re-create
-  // await User.sync({ alter: true });
-})();
+// (async () => {
+//   await User.sync({ force: true }); // Drop table and re-create
+//   // await User.sync({ alter: true });
+// })();
 
 module.exports = { User };
