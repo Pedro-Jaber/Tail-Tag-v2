@@ -1,4 +1,5 @@
 const { User } = require("../model/model_user");
+const { Pet } = require("../model/model_pet");
 const { Op } = require("sequelize");
 
 const { deleteUndefinedProperties } = require("../utils/object_utils");
@@ -25,8 +26,19 @@ module.exports.getAllUsers = async (req, res) => {
 module.exports.getById = async (req, res) => {
   const id_user = req.params.id;
   // console.log("id_user:", id_user);
+  const pets = req.query.pets === "true";
+  let options = {};
+  if (pets) {
+    options = {
+      include: {
+        model: Pet,
+        as: "Pets",
+        attributes: ["name"],
+      },
+    };
+  }
 
-  const user = await User.findByPk(id_user);
+  const user = await User.findByPk(id_user, options);
   // console.log("user:", user.dataValues);
 
   if (user === null) {
