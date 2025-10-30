@@ -113,6 +113,7 @@ User.belongsToMany(Pet, {
 });
 
 Pet.belongsToMany(User, {
+  as: "Owners",
   through: "pet_user",
   foreignKey: "id_pet",
 });

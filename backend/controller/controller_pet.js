@@ -43,8 +43,23 @@ module.exports.getAllPets = async (req, res) => {
 module.exports.getById = async (req, res) => {
   const id_pet = req.params.id;
   // console.log("id_pet:", id_pet);
+  const owners = req.query.owners === "true";
+  let options = {};
+  if (owners) {
+    options = {
+      include: {
+        model: User,
+        as: "Owners",
+        attributes: [
+          ["first_name", "owner_first_name"],
+          ["last_name", "owner_last_name"],
+          "id_user",
+        ],
+      },
+    };
+  }
 
-  const pet = await Pet.findByPk(id_pet);
+  const pet = await Pet.findByPk(id_pet, options);
   // console.log("pet:", pet.dataValues);
 
   if (pet === null) {
