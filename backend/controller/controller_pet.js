@@ -1,6 +1,6 @@
 const { Pet } = require("../model/model_pet");
 const { User } = require("../model/model_user");
-const { Op, where } = require("sequelize");
+const { Op } = require("sequelize");
 
 const { deleteUndefinedProperties } = require("../utils/object_utils");
 
