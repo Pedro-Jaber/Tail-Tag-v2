@@ -7,6 +7,9 @@ require("dotenv").config();
 const { Pet } = require("./model/model_pet");
 const { User } = require("./model/model_user");
 
+const userRouter = require("./router/router_user");
+const petRouter = require("./router/router_pet");
+
 //* Database
 const { syncDatabase } = require("./model/database");
 
@@ -42,7 +45,8 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.use("/api/v1/users", require("./router/router_user"));
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/pets", petRouter);
 
 app.get("/test", async (req, res) => {
   try {

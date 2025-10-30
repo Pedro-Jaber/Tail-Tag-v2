@@ -196,6 +196,7 @@ module.exports.delete = async (req, res) => {
   const id_user = req.params.id;
 
   // TODO: [issue #3] delete pets
+  // TODO: [issue #1] check if the user making the request is admin or same user
 
   // Search user
   const userToDelete = await User.findByPk(id_user);

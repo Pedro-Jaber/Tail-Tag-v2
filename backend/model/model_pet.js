@@ -15,6 +15,7 @@ const Pet = sequelize.define(
     collar_serial_number: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         len: {
           args: [1, 255],
